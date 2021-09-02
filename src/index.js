@@ -1,3 +1,2 @@
-import { AppCtrl } from './controller/AppCtrl/AppCtrl.js';
-
+import { AppCtrl } from './controller/AppCtrl/AppCtrl';
 AppCtrl.init();

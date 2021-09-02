@@ -1,23 +1,22 @@
-export const UICtrl = (function() {
-    const UISelectors = {
-        jokesList: '#joke-list',
-        listJokesItem: '#joke-list .joke-card',
-        jokesArchiveList: '#joke-archive-list',
-        listJokesArchiveItem: '#joke-archive-list .joke-card',
-        paginate: '#paginate',
-        searhInput: '#search',
-    }
+export const UICtrl = (function () {
+  const UISelectors = {
+    jokesList: '#joke-list',
+    listJokesItem: '#joke-list .joke-card',
+    jokesArchiveList: '#joke-archive-list',
+    listJokesArchiveItem: '#joke-archive-list .joke-card',
+    paginate: '#paginate',
+    searhInput: '#search',
+  };
 
-    return {
-        getSelectors: function() {
-            return UISelectors;
-        },
-        populateJokeList: function(jokes, currentPage) {
-            let html = '';
+  return {
+    getSelectors: function () {
+      return UISelectors;
+    },
+    populateJokeList: function (jokes, currentPage) {
+      let html = '';
 
-            jokes.forEach((joke) => {
-                html += 
-                `
+      jokes.forEach((joke) => {
+        html += `
                     <div id="joke-${joke.id}" class="col s12 m6 joke-card">
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
@@ -25,95 +24,114 @@ export const UICtrl = (function() {
                                 <p>${joke.jokes}</p>
                             </div>
                             <div class="card-action review-container">
-                                ${currentPage.includes('index.html') ? `<div class="review-container">
+                                ${
+                                  currentPage === '/'
+                                    ? `<div class="review-container">
                                     <a id="joke-like-${joke.id}" class="flex-review curser-pointer">
-                                        <i class="material-icons like-btn ${joke.like > 0 ? "lime-text": "white-text"} text-darken-2">thumb_up</i>
+                                        <i class="material-icons like-btn ${
+                                          joke.like > 0 ? 'lime-text' : 'white-text'
+                                        } text-darken-2">thumb_up</i>
                                         <span class="white-text">${joke.like}</span>
                                     </a>
                                     <a id="joke-dislike-${joke.id}" class="flex-review curser-pointer">
-                                        <i class="material-icons dislike-btn ${joke.dislike > 0 ? "" : "white-text"}">thumb_down_alt</i>
+                                        <i class="material-icons dislike-btn ${
+                                          joke.dislike > 0 ? '' : 'white-text'
+                                        }">thumb_down_alt</i>
                                         <span class="white-text">${joke.dislike}</span>
                                     </a>
-                                </div>` : ''}
+                                </div>`
+                                    : ''
+                                }
                                 <a id="joke-like-${joke.id}" class="flex-review ml-auto curser-pointer">
                                     <i 
-                                        class="material-icons archive-btn ${joke.archive ? "yellow-text" : "white-text"}">
-                                        ${joke.archive ? "unarchive" : "archive"}
+                                        class="material-icons archive-btn ${
+                                          joke.archive ? 'yellow-text' : 'white-text'
+                                        }">
+                                        ${joke.archive ? 'unarchive' : 'archive'}
                                     </i>
                                 </a>
                             </div>
                         </div>
                     </div>
-                `
-            });
-            // insert joke items in HTML
-            if(currentPage.includes('index.html')) {
-                document.querySelector(UISelectors.jokesList).innerHTML = html;
-            } else if(currentPage.includes('archive.html')) {
-                document.querySelector(UISelectors.jokesArchiveList).innerHTML = html;
-            }
-        },
-        updateJokeItem: function(item, currentPage) {
-            let jokeItems = currentPage.includes('index.html') ? 
-                            document.querySelectorAll(UISelectors.listJokesItem) : 
-                            currentPage.includes('archive.html') ? 
-                            document.querySelectorAll(UISelectors.listJokesArchiveItem) :
-                            null 
-            
-            jokeItems = Array.from(jokeItems);
-            
-            jokeItems.forEach((joke) => {
-                const jokeID = joke.getAttribute('id');
-                if(jokeID === `joke-${item.id}`) {
-                    document.querySelector(`#${jokeID}`).innerHTML = 
-                    `
+                `;
+      });
+      // insert joke items in HTML
+      if (currentPage === '/') {
+        document.querySelector(UISelectors.jokesList).innerHTML = html;
+      } else if (currentPage.includes('archive.html')) {
+        document.querySelector(UISelectors.jokesArchiveList).innerHTML = html;
+      }
+    },
+    updateJokeItem: function (item, currentPage) {
+      let jokeItems =
+        currentPage === '/'
+          ? document.querySelectorAll(UISelectors.listJokesItem)
+          : currentPage.includes('archive.html')
+          ? document.querySelectorAll(UISelectors.listJokesArchiveItem)
+          : null;
+
+      jokeItems = Array.from(jokeItems);
+
+      jokeItems.forEach((joke) => {
+        const jokeID = joke.getAttribute('id');
+        if (jokeID === `joke-${item.id}`) {
+          document.querySelector(`#${jokeID}`).innerHTML = `
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
                                 <span class="card-title">${item.title}</span>
                                 <p>${item.jokes}</p>
                             </div>
                             <div class="card-action review-container">
-                                ${currentPage.includes('index.html') ? `<div class="review-container">
+                                ${
+                                  currentPage === '/'
+                                    ? `<div class="review-container">
                                     <a id="joke-like-${item.id}" class="flex-review curser-pointer">
-                                        <i class="material-icons like-btn ${item.like > 0 ? "lime-text": "white-text"} text-darken-2">thumb_up</i>
+                                        <i class="material-icons like-btn ${
+                                          item.like > 0 ? 'lime-text' : 'white-text'
+                                        } text-darken-2">thumb_up</i>
                                         <span class="white-text">${item.like}</span>
                                     </a>
                                     <a id="joke-dislike-${item.id}" class="flex-review curser-pointer">
-                                        <i class="material-icons dislike-btn ${item.dislike > 0 ? "" : "white-text"}">thumb_down_alt</i>
+                                        <i class="material-icons dislike-btn ${
+                                          item.dislike > 0 ? '' : 'white-text'
+                                        }">thumb_down_alt</i>
                                         <span class="white-text">${item.dislike}</span>
                                     </a>
-                                </div>` : ''}
+                                </div>`
+                                    : ''
+                                }
                                 <a id="joke-like-${item.id}" class="flex-review ml-auto curser-pointer">
                                     <i 
-                                        class="material-icons archive-btn ${item.archive ? "yellow-text" : "white-text"}">
-                                        ${item.archive ? "unarchive" : "archive"}
+                                        class="material-icons archive-btn ${
+                                          item.archive ? 'yellow-text' : 'white-text'
+                                        }">
+                                        ${item.archive ? 'unarchive' : 'archive'}
                                     </i>
                                 </a>
                             </div>
                         </div>
-                    `
-                }
-            })
-        },
-        deleteArchiveJoke: function(id) {
-            const jokeID = `#joke-${id}`;
-            const joke = document.querySelector(jokeID);
-            joke.remove();
-        },
-        updatePagination: function(totalPage, currentPaginate) {
-            let html = '';
-            for(let i=1; i <= totalPage; i++) {
-                html += `
-                    <li class="${i === currentPaginate ? "active" : "waves-effect"}"><a id="page-${i}">${i}</a></li>
-                `
-            }
-
-            // insert pagination element
-            document.querySelector(UISelectors.paginate).innerHTML = html;
-        },
-        getSearchInput: function() {
-            return document.querySelector(UISelectors.searhInput).value;
+                    `;
         }
+      });
+    },
+    deleteArchiveJoke: function (id) {
+      const jokeID = `#joke-${id}`;
+      const joke = document.querySelector(jokeID);
+      joke.remove();
+    },
+    updatePagination: function (totalPage, currentPaginate) {
+      let html = '';
+      for (let i = 1; i <= totalPage; i++) {
+        html += `
+                    <li class="${i === currentPaginate ? 'active' : 'waves-effect'}"><a id="page-${i}">${i}</a></li>
+                `;
+      }
 
-    }
+      // insert pagination element
+      document.querySelector(UISelectors.paginate).innerHTML = html;
+    },
+    getSearchInput: function () {
+      return document.querySelector(UISelectors.searhInput).value;
+    },
+  };
 })();
