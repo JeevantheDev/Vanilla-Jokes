@@ -1,83 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <!-- Compiled and minified CSS -->
-     <link 
-        rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    >
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <title>Jokes | Maker</title>
     <style>
-        .curser-pointer {
-            cursor: pointer;
-        }
-        .review-container {
-            display: flex;
-        }
-        .flex-review {
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-        }
-        .flex-review > i {
-            margin-right: 0.5rem;
-        }
-        .ml-auto {
-            margin-left: auto;
-        }
+      .curser-pointer {
+        cursor: pointer;
+      }
+      .review-container {
+        display: flex;
+      }
+      .flex-review {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      .flex-review > i {
+        margin-right: 0.5rem;
+      }
+      .ml-auto {
+        margin-left: auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- NavBar -->
     <nav>
-        <div class="container">
-            <div class="nav-wrapper">
-            <a href="index.html" class="brand-logo">Jokes</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li class="active"><a href="archive.html">Archive</a></li>
-            </ul>
-            </div>
+      <div class="container">
+        <div class="nav-wrapper">
+          <a href="index.html" class="brand-logo">Jokes</a>
+          <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li class="active"><a href="archive.html">Archive</a></li>
+          </ul>
         </div>
+      </div>
     </nav>
 
     <!-- Wrap inside Container -->
     <div class="container">
-        <!-- Search Box -->
-        <nav class="blue-grey lighten-1" style="margin-top: 1.2rem; height: 2.5rem;width: 50%;">
-            <div class="nav-wrapper">
-                <form>
-                  <div class="input-field">
-                    <input class="white" id="search" type="search" placeholder="Search Your Joke..." required>
-                    <label class="label-icon" for="search">
-                        <i style="line-height: 45px;" class="grey-text darken-4 material-icons">search</i>
-                    </label>
-                  </div>
-                </form>
-              </div>
-        </nav>
-        <!-- Joke Cards -->
-        <div id="joke-archive-list" style="margin-top: 1rem;" class="row"></div>
-        <!-- Pagination -->
-        <ul id="paginate" class="pagination"></ul>
+      <!-- Search Box -->
+      <nav class="blue-grey lighten-1" style="margin-top: 1.2rem; height: 2.5rem; width: 50%">
+        <div class="nav-wrapper">
+          <form>
+            <div class="input-field">
+              <input class="white" id="search" type="search" placeholder="Search Your Joke..." required />
+              <label class="label-icon" for="search">
+                <i style="line-height: 45px" class="grey-text darken-4 material-icons">search</i>
+              </label>
+            </div>
+          </form>
+        </div>
+      </nav>
+      <!-- Joke Cards -->
+      <div id="joke-archive-list" style="margin-top: 1rem" class="row"></div>
+      <!-- Pagination -->
+      <ul id="paginate" class="pagination"></ul>
     </div>
     <!-- Wrap inside Container -->
 
     <!-- JS Scripts -->
-    <script type="module" src="../src/index.js"></script>
-     <!-- Compiled and minified JavaScript -->
-     <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
+    <script type="module" src="./src/index.js"></script>
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"
+      integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
     ></script>
-    <script 
-        src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" 
-        integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" 
-        crossorigin="anonymous" 
-        referrerpolicy="no-referrer"
-    >
-    </script>
-</body>
+  </body>
 </html>
