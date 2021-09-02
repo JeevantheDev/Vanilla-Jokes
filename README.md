@@ -10,7 +10,19 @@
 
   - HTML, CSS, Materialize CSS(CDN)
   - Vanilla JS, lodash
-  - Webpack
+  -
+
+- `Home Page`
+
+  - `Search Bar` integartion.
+  - Render all the jokes with `pagination`. (from `API`)
+  - `Like & Dislike` a joke.
+  - `Archive` a joke. (Save in `localstorage`)
+
+- `Archive Page`
+  - `Search Bar` integartion.
+  - Render all the jokes with `pagination`. (from `localstorage`)
+  - `Unarchive` a joke. (Remove from `localstorage`)
 
 ### Setup Project
 
