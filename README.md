@@ -10,7 +10,7 @@
 
   - HTML, CSS, Materialize CSS(CDN)
   - Vanilla JS, lodash
-  - Webapck
+  - Webpack
 
 ### Setup Project
 
