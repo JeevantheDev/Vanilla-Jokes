@@ -1,5 +1,6 @@
 export const UICtrl = (function () {
   const UISelectors = {
+    isLoading: '#is-loading',
     jokesList: '#joke-list',
     listJokesItem: '#joke-list .joke-card',
     jokesArchiveList: '#joke-archive-list',
@@ -12,11 +13,29 @@ export const UICtrl = (function () {
     getSelectors: function () {
       return UISelectors;
     },
+    renderLoading: function (isLoading) {
+      let html = isLoading
+        ? ` <div  class="loading-container">
+                <div class="preloader-wrapper big active">
+                      <div class="spinner-layer spinner-red-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+              </div>`
+        : '';
+      document.querySelector(UISelectors.isLoading).innerHTML = html;
+    },
     populateJokeList: function (jokes, currentPage) {
       let html = '';
-
-      jokes.forEach((joke) => {
-        html += `
+      jokes.length > 0
+        ? jokes.forEach((joke) => {
+            html += `
                     <div id="joke-${joke.id}" class="col s12 m6 joke-card">
                         <div class="card blue-grey darken-1">
                             <div class="card-content white-text">
@@ -54,13 +73,11 @@ export const UICtrl = (function () {
                         </div>
                     </div>
                 `;
-      });
+          })
+        : (html += `<p> No Jokes Found... </p>`);
       // insert joke items in HTML
-      if (currentPage === '/') {
-        document.querySelector(UISelectors.jokesList).innerHTML = html;
-      } else if (currentPage.includes('archive.html')) {
-        document.querySelector(UISelectors.jokesArchiveList).innerHTML = html;
-      }
+      let selector = currentPage === '/' ? UISelectors.jokesList : UISelectors.jokesArchiveList;
+      document.querySelector(selector).innerHTML = html;
     },
     updateJokeItem: function (item, currentPage) {
       let jokeItems =

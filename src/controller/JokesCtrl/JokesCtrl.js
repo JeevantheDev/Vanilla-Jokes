@@ -15,7 +15,7 @@ export const JokesCtrl = (function () {
   return {
     getJokes: async () => {
       const res = await getAllJokes();
-      data.jokes.push(...res.jokes);
+      data.jokes.push(...(res.jokes || []));
       data.totalPage = Math.ceil(data.jokes.length / data.limit);
       return _.chunk(data.jokes, data.limit)[data.offset - 1];
     },
@@ -33,21 +33,14 @@ export const JokesCtrl = (function () {
     },
 
     updateJokesByOffset: (currentPage) => {
-      if (currentPage === '/') {
-        return _.chunk(data.jokes, data.limit)[data.offset - 1];
-      } else if (currentPage.includes('archive.html')) {
-        return _.chunk(data.archiveJokes, data.limit)[data.offset - 1];
-      }
+      let lists = currentPage === '/' ? data.jokes : data.archiveJokes;
+      return _.chunk(lists, data.limit)[data.offset - 1];
     },
 
     updateJokesBySearch: (query, currentPage) => {
-      if (currentPage === '/') {
-        const currentData = _.chunk(data.jokes, data.limit)[data.offset - 1];
-        return _.filter(currentData, (joke) => !joke.title.toLowerCase().search(query));
-      } else if (currentPage.includes('archive.html')) {
-        const currentData = _.chunk(data.archiveJokes, data.limit)[data.offset - 1];
-        return _.filter(currentData, (joke) => !joke.title.toLowerCase().search(query));
-      }
+      let lists = currentPage === '/' ? data.jokes : data.archiveJokes;
+      const currentData = _.chunk(lists, data.limit)[data.offset - 1];
+      return _.filter(currentData, (joke) => !joke.title.toLowerCase().search(query));
     },
 
     getArchiveJokes: () => {
@@ -73,62 +66,46 @@ export const JokesCtrl = (function () {
     likeJoke: async () => {
       let found = null;
       return await addLikeOrDislike({ id: data.currentJoke.id, like: 'true' }).then(({ success }) => {
-        if (success) {
-          data.jokes.forEach((joke) => {
-            if (joke.id === data.currentJoke.id) {
-              joke.like = joke.like + 1;
-              found = joke;
-            } else {
-              return;
-            }
-          });
-          return found;
-        } else {
-          return;
-        }
+        if (!success) return;
+        data.jokes.forEach((joke) => {
+          if (joke.id === data.currentJoke.id) {
+            joke.like = joke.like + 1;
+            found = joke;
+          } else {
+            return;
+          }
+        });
+        return found;
       });
     },
 
     dislikeJoke: async () => {
       let found = null;
       return await addLikeOrDislike({ id: data.currentJoke.id, dislike: 'true' }).then(({ success }) => {
-        if (success) {
-          data.jokes.forEach((joke) => {
-            if (joke.id === data.currentJoke.id) {
-              joke.dislike += 1;
-              found = joke;
-            } else {
-              return;
-            }
-          });
-          return found;
-        } else {
-          return;
-        }
+        if (!success) return;
+        data.jokes.forEach((joke) => {
+          if (joke.id === data.currentJoke.id) {
+            joke.dislike += 1;
+            found = joke;
+          } else {
+            return;
+          }
+        });
+        return found;
       });
     },
 
     isArchieveJoke: (jokeID, currentPage) => {
       let found = null;
-      if (currentPage === '/') {
-        data.jokes.forEach((joke) => {
-          if (joke.id === parseInt(jokeID)) {
-            joke.archive = !joke.archive;
-            found = joke;
-          } else {
-            return;
-          }
-        });
-      } else if (currentPage.includes('archive.html')) {
-        data.archiveJokes.forEach((joke) => {
-          if (joke.id === parseInt(jokeID)) {
-            joke.archive = !joke.archive;
-            found = joke;
-          } else {
-            return;
-          }
-        });
-      }
+      let lists = currentPage === '/' ? data.jokes : data.archiveJokes;
+      lists.forEach((joke) => {
+        if (joke.id === parseInt(jokeID)) {
+          joke.archive = !joke.archive;
+          found = joke;
+        } else {
+          return;
+        }
+      });
       return found;
     },
   };

@@ -26,6 +26,12 @@
       .ml-auto {
         margin-left: auto;
       }
+      .loading-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+      }
     </style>
   </head>
   <body>
@@ -56,6 +62,8 @@
           </form>
         </div>
       </nav>
+      <!-- Preloader -->
+      <div id="is-loading"></div>
       <!-- Joke Cards -->
       <div id="joke-archive-list" style="margin-top: 1rem" class="row"></div>
       <!-- Pagination -->

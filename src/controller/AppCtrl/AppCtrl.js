@@ -5,17 +5,15 @@ import { UICtrl } from '../UICtrl/UICtrl';
 export const AppCtrl = (function (JokesCtrl, UICtrl, StorageCtrl) {
   const state = {
     page: null,
+    isLoading: true,
   };
   const loadEventListeners = function () {
     // Get UI Selectors
     const UISelectors = UICtrl.getSelectors();
 
     // Like Btn click Event
-    if (state.page === '/') {
-      document.querySelector(UISelectors.jokesList).addEventListener('click', jokeLikeOrDislikeOrSaveClick);
-    } else if (state.page.includes('archive.html')) {
-      document.querySelector(UISelectors.jokesArchiveList).addEventListener('click', jokeLikeOrDislikeOrSaveClick);
-    }
+    let selector = state.page === '/' ? UISelectors.jokesList : UISelectors.jokesArchiveList;
+    document.querySelector(selector).addEventListener('click', jokeClickAction);
     document.querySelector(UISelectors.paginate).addEventListener('click', updatePaginateClick);
     document.querySelector(UISelectors.searhInput).addEventListener('keyup', searchJokeKeyup);
   };
@@ -29,7 +27,7 @@ export const AppCtrl = (function (JokesCtrl, UICtrl, StorageCtrl) {
   };
 
   // Click Joke Like Event
-  const jokeLikeOrDislikeOrSaveClick = function (e) {
+  const jokeClickAction = function (e) {
     e.stopPropagation();
     if (e.target.classList.contains('like-btn')) {
       const jokeID = e.target.parentNode.id;
@@ -60,7 +58,7 @@ export const AppCtrl = (function (JokesCtrl, UICtrl, StorageCtrl) {
         StorageCtrl.deleteItems(response.id);
       }
       state.page === '/' ? UICtrl.updateJokeItem(response, state.page) : UICtrl.deleteArchiveJoke(response.id);
-
+      console.log(JokesCtrl.getArchiveJokes());
       JokesCtrl.resetCurrentJoke();
     }
   };
@@ -74,34 +72,19 @@ export const AppCtrl = (function (JokesCtrl, UICtrl, StorageCtrl) {
     UICtrl.populateJokeList(res, state.page);
     UICtrl.updatePagination(JokesCtrl.getTotalPage(), JokesCtrl.getCurrentOffset());
   };
+
   return {
-    init: function () {
+    init: async function () {
       state.page = window.location.pathname;
       let jokes = [];
-      if (state.page === '/') {
-        JokesCtrl.getJokes().then((res) => {
-          console.log(res);
-          jokes.push(...res);
-
-          if (jokes.length > 0) {
-            UICtrl.populateJokeList(jokes, state.page);
-            UICtrl.updatePagination(JokesCtrl.getTotalPage(), JokesCtrl.getCurrentOffset());
-            loadEventListeners();
-          } else {
-            return;
-          }
-        });
-      } else if (state.page.includes('archive.html')) {
-        const data = JokesCtrl.getArchiveJokes();
-        jokes.push(...data);
-        if (jokes.length > 0) {
-          UICtrl.populateJokeList(jokes, state.page);
-          UICtrl.updatePagination(JokesCtrl.getTotalPage(), JokesCtrl.getCurrentOffset());
-          loadEventListeners();
-        } else {
-          return;
-        }
-      }
+      UICtrl.renderLoading(state.isLoading);
+      let data = state.page === '/' ? await JokesCtrl.getJokes() : JokesCtrl.getArchiveJokes();
+      jokes.push(...(data || []));
+      state.isLoading = false;
+      UICtrl.renderLoading(state.isLoading);
+      UICtrl.populateJokeList(jokes, state.page);
+      UICtrl.updatePagination(JokesCtrl.getTotalPage(), JokesCtrl.getCurrentOffset());
+      loadEventListeners();
     },
   };
 })(JokesCtrl, UICtrl, StorageCtrl);
