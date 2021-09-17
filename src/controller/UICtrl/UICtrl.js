@@ -37,7 +37,7 @@ export const UICtrl = (function () {
         ? jokes.forEach((joke) => {
             html += `
                     <div id="joke-${joke.id}" class="col s12 m6 joke-card">
-                        <div class="card blue-grey darken-1">
+                        <div style="height: 15rem;" class="card blue-grey darken-1">
                             <div class="card-content white-text">
                                 <span class="card-title">${joke.title}</span>
                                 <p>${joke.jokes}</p>

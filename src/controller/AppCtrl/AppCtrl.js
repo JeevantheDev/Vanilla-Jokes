@@ -58,7 +58,6 @@ export const AppCtrl = (function (JokesCtrl, UICtrl, StorageCtrl) {
         StorageCtrl.deleteItems(response.id);
       }
       state.page === '/' ? UICtrl.updateJokeItem(response, state.page) : UICtrl.deleteArchiveJoke(response.id);
-      console.log(JokesCtrl.getArchiveJokes());
       JokesCtrl.resetCurrentJoke();
     }
   };

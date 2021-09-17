@@ -21,7 +21,6 @@ export const StorageCtrl = (function () {
       } else {
         items = JSON.parse(localStorage.getItem('jokes'));
       }
-      console.log('items', items);
       return items;
     },
 
